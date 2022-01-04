@@ -19,6 +19,8 @@ public class FarmDataLoader {
         try {
             return new CsvToBeanBuilder<FarmDataItem>(new FileReader(filePath))
                     .withType(FarmDataItem.class)
+                    .withVerifier(new FarmDataItemVerifier())
+                    .withExceptionHandler(new FarmDataExceptionHandler())
                     .build().parse();
         } catch (FileNotFoundException e) {
             log.error("File not found: {}", filePath);

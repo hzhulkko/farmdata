@@ -1,7 +1,7 @@
 package com.example.farmdata.data;
 
-import com.example.farmdata.loader.StringToNumericConverter;
-import com.example.farmdata.loader.StringToZonedDateTimeConverter;
+import com.example.farmdata.loader.NumericConverter;
+import com.example.farmdata.loader.ZonedDateTimeConverter;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 import com.opencsv.bean.CsvIgnore;
@@ -20,10 +20,10 @@ public class FarmDataItem {
     private @Id @GeneratedValue Long id;
     @CsvBindByName
     private String location;
-    @CsvCustomBindByName(converter = StringToZonedDateTimeConverter.class)
+    @CsvCustomBindByName(converter = ZonedDateTimeConverter.class)
     private ZonedDateTime dateTime;
     @CsvBindByName
-    private String sensorType;
-    @CsvCustomBindByName(converter = StringToNumericConverter.class)
+    private SensorType sensorType;
+    @CsvCustomBindByName(converter = NumericConverter.class)
     private Double value;
 }
