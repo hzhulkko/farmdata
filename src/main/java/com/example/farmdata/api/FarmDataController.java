@@ -1,7 +1,7 @@
 package com.example.farmdata.api;
 
+import com.example.farmdata.service.FarmDataService;
 import com.example.farmdata.data.FarmDataItem;
-import com.example.farmdata.repository.FarmDataRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +16,10 @@ import java.util.List;
 public class FarmDataController {
 
     @Autowired
-    private final FarmDataRepository repository;
+    private final FarmDataService service;
 
     @GetMapping("/")
     public List<FarmDataItem> listAllItems() {
-        return repository.findAll();
+        return service.findAll();
     }
 }

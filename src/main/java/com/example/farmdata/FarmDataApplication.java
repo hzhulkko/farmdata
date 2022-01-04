@@ -1,7 +1,7 @@
 package com.example.farmdata;
 
 import com.example.farmdata.loader.FarmDataLoader;
-import com.example.farmdata.repository.FarmDataRepository;
+import com.example.farmdata.service.FarmDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,7 +19,7 @@ public class FarmDataApplication {
 	}
 
 	@Bean
-	CommandLineRunner initializeDatabase(FarmDataRepository repository) {
+	CommandLineRunner initializeDatabase(FarmDataService service) {
 		return args -> {
 			var files = Arrays.asList(
 					"src/main/resources/data/friman_metsola.csv",
@@ -28,7 +28,7 @@ public class FarmDataApplication {
 					"src/main/resources/data/PartialTech.csv");
 			files.forEach(filePath -> {
 				var data = FarmDataLoader.readFarmDataItems(filePath);
-				data.forEach(item -> repository.save(item));
+				service.saveAll(data);
 			});
 
 		};
