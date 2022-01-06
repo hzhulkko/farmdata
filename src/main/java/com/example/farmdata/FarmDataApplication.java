@@ -1,7 +1,7 @@
 package com.example.farmdata;
 
 import com.example.farmdata.loader.FarmDataLoader;
-import com.example.farmdata.service.FarmDataService;
+import com.example.farmdata.loader.FarmDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

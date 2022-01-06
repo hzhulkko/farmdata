@@ -1,6 +1,5 @@
 package com.example.farmdata.loader;
 
-import com.example.farmdata.data.FarmDataItem;
 import com.example.farmdata.data.SensorType;
 import com.opencsv.bean.BeanVerifier;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,6 @@
 package com.example.farmdata.loader;
 
-import com.example.farmdata.data.FarmDataItem;
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.bean.MappingStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

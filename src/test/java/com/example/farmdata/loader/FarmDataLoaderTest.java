@@ -1,6 +1,5 @@
 package com.example.farmdata.loader;
 
-import com.example.farmdata.data.FarmDataItem;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

@@ -1,23 +1,15 @@
-package com.example.farmdata.data;
+package com.example.farmdata.loader;
 
-import com.example.farmdata.loader.NumericConverter;
-import com.example.farmdata.loader.ZonedDateTimeConverter;
+import com.example.farmdata.data.SensorType;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
-import com.opencsv.bean.CsvIgnore;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.ZonedDateTime;
 
 @Data
-@Entity
 public class FarmDataItem {
 
-    @CsvIgnore
-    private @Id @GeneratedValue Long id;
     @CsvBindByName
     private String location;
     @CsvCustomBindByName(converter = ZonedDateTimeConverter.class)
