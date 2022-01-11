@@ -12,21 +12,21 @@ public class FarmDataItemVerifier implements BeanVerifier<FarmDataItem> {
     }
 
     private boolean temperatureIsInRange(FarmDataItem item) {
-        if (item.getSensorType().equals(SensorType.TEMPERATURE)) {
+        if (item.getSensorType().equals(SensorType.temperature)) {
             return item.getValue() >= -50.0 && item.getValue() <= 100.0;
         }
         return true;
     }
 
     private boolean rainFallIsInRange(FarmDataItem item) {
-        if (item.getSensorType().equals(SensorType.RAINFALL)) {
+        if (item.getSensorType().equals(SensorType.rainfall)) {
             return item.getValue() >= 0.0 && item.getValue() <= 500.0;
         }
         return true;
     }
 
     private boolean pHIsInRange(FarmDataItem item) {
-        if (item.getSensorType().equals(SensorType.PH)) {
+        if (item.getSensorType().equals(SensorType.pH)) {
             return item.getValue() >= 0.0 && item.getValue() <= 14.0;
         }
         return true;
