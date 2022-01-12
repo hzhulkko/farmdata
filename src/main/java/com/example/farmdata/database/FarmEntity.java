@@ -20,7 +20,7 @@ import java.util.Set;
 public class FarmEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "farm_id")
     private Long id;
     @Column(name = "farm_name", unique = true)
