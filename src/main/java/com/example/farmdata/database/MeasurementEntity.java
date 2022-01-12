@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,15 +25,18 @@ public class MeasurementEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "measurement_id")
     private Long id;
+
     @Column(name = "measurement_time", columnDefinition= "TIMESTAMP WITH TIME ZONE")
     private ZonedDateTime timestamp;
-    @Column(name = "sensor_type")
-    @Enumerated(EnumType.STRING)
-    private SensorType sensorType;
+
+    @ManyToOne
+    @JoinColumn(name = "sensor_type")
+    private SensorTypeEntity sensorType;
+
     @Column(name = "measurement_value")
     private Double value;
+
     @ManyToOne
     @JoinColumn(name = "farm_id")
     private FarmEntity farm;

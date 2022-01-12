@@ -15,7 +15,6 @@ public class FarmDataMapper {
 
     public static MeasurementEntity mapToMeasurement(FarmDataItem item) {
         var measurement = new MeasurementEntity();
-        measurement.setSensorType(item.getSensorType());
         measurement.setTimestamp(item.getDateTime());
         measurement.setValue(item.getValue());
         return measurement;
