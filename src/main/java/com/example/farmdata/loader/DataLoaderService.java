@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class FarmDataService {
+public class DataLoaderService {
 
     @Autowired
     private final FarmRepository farmRepository;

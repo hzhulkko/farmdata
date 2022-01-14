@@ -1,7 +1,7 @@
 package com.example.farmdata;
 
 import com.example.farmdata.loader.FarmDataLoader;
-import com.example.farmdata.loader.FarmDataService;
+import com.example.farmdata.loader.DataLoaderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +21,7 @@ public class FarmDataApplication {
 
 	@Bean
 	@Profile("!test")
-	CommandLineRunner initializeDatabase(FarmDataService service) {
+	CommandLineRunner initializeDatabase(DataLoaderService service) {
 		return args -> {
 			var files = Arrays.asList(
 					"src/main/resources/data/friman_metsola.csv",
