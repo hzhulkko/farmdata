@@ -1,18 +1,13 @@
 package com.example.farmdata.api;
 
-import com.example.farmdata.data.SensorType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import java.time.ZonedDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
+@Data
 public class MeasurementResponse {
 
-    private SensorType sensorType;
+    private String sensorType;
     private Double value;
     private ZonedDateTime timestamp;
 }

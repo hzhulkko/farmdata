@@ -1,17 +1,14 @@
 package com.example.farmdata.api;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 public class FarmResponse {
 
+    private Long id;
     private String name;
-    private List<MeasurementResponse> measurements;
 }
