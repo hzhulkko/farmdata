@@ -1,6 +1,7 @@
 package com.example.farmdata.database;
 
 import com.example.farmdata.AbstractFarmDataIntegrationTest;
+import com.example.farmdata.api.exception.DataNotFoundException;
 import com.example.farmdata.api.FarmService;
 import com.example.farmdata.api.MeasurementResponse;
 import com.example.farmdata.data.SensorType;
@@ -47,6 +48,19 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
 
     @Test
     @Sql({"/schema.sql"})
+    void givenNoFarmsInDatabase_thenFindFarmAllFarmsReturnsEmptyList() {
+        var farms = farmService.findAllFarms();
+        Assertions.assertTrue(farms.isEmpty());
+    }
+
+    @Test
+    @Sql({"/schema.sql"})
+    void givenNoFarmsInDatabase_thenFindFarmAllFarmsThrowsDataNotFoundException() {
+        Assertions.assertThrows(DataNotFoundException.class, () -> farmService.findFarmById(1L));
+    }
+
+    @Test
+    @Sql({"/schema.sql"})
     void givenFarmsInDatabase_thenFindFarmByIdReturnsCorrectFarm() {
         dataLoaderService.saveAll(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
@@ -59,6 +73,15 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
                 () -> Assertions.assertNotNull(farmToFind),
                 () -> Assertions.assertEquals("farm_1", farmToFind.getName())
         );
+    }
+
+    @Test
+    @Sql({"/schema.sql"})
+    void givenFarmNotInDatabase_thenFindFarmByIdThrowsDataNotFoundException() {
+        dataLoaderService.saveAll(Collections.singletonList(
+                new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
+        ));
+        Assertions.assertThrows(DataNotFoundException.class, () -> farmService.findFarmById(2L));
     }
 
     @Test
@@ -77,6 +100,32 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
                 () -> Assertions.assertTrue(measurements.stream()
                         .allMatch(result -> result.getSensorType().equals(sensorType.name()))
                 )
+        );
+    }
+
+    @Test
+    @Sql({"/schema.sql"})
+    void givenMeasurementsInDatabase_whenFindMeasurementsWithNonMatchingSensorType_thenEmptyListReturned() {
+        dataLoaderService.saveAll(Collections.singletonList(
+                new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
+        ));
+        dataLoaderService.saveAll(Collections.singletonList(
+                new FarmDataItem("farm_2", ZonedDateTime.now(), SensorType.temperature, 1.0)
+        ));
+        var sensorType = SensorType.temperature;
+        var measurements =
+                farmService.findMeasurementsByFarmAndSensorType(1L, sensorType.name());
+        Assertions.assertTrue(measurements.isEmpty());
+    }
+
+    @Test
+    @Sql({"/schema.sql"})
+    void givenNoSensorTypeInDatabase_whenFindMeasurements_thenThrowDataNotFoundException() {
+        dataLoaderService.saveAll(Collections.singletonList(
+                new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
+        ));
+        Assertions.assertThrows(DataNotFoundException.class,
+                () -> farmService.findMeasurementsByFarmAndSensorType(1L, "humidity")
         );
     }
 
