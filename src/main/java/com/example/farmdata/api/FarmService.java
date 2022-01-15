@@ -1,5 +1,7 @@
 package com.example.farmdata.api;
 
+import com.example.farmdata.api.exception.DataNotFoundException;
+import com.example.farmdata.api.exception.InvalidDateFormatException;
 import com.example.farmdata.database.FarmEntity;
 import com.example.farmdata.database.FarmRepository;
 import com.example.farmdata.database.MeasurementEntity;
@@ -15,6 +17,7 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,12 +74,12 @@ public class FarmService {
 
     private FarmEntity getFarm(Long id) {
         return farmRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Farm not found"));
+                .orElseThrow(() -> new DataNotFoundException("Farm not found with id " + id));
     }
 
     private SensorTypeEntity getSensorType(String sensorName) {
-        return sensorTypeRepository.findByName(sensorName)
-                .orElseThrow(() -> new RuntimeException("SensorType not found"));
+        return sensorTypeRepository.findByNameIgnoreCase(sensorName)
+                .orElseThrow(() -> new DataNotFoundException("Sensor type " + sensorName + " does not exist"));
     }
 
     private FarmResponse mapToFarmResponse(FarmEntity entity) {
@@ -96,8 +99,12 @@ public class FarmService {
     }
 
     private ZonedDateTime getDateObject(String dateString) {
-        var localDate = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
-        return localDate.atStartOfDay(ZoneOffset.UTC);
+        try {
+            var localDate = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
+            return localDate.atStartOfDay(ZoneOffset.UTC);
+        } catch (DateTimeParseException ex) {
+            throw new InvalidDateFormatException("Invalid date format: " + dateString);
+        }
     }
 
 }

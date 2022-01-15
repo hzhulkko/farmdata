@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface SensorTypeRepository extends JpaRepository<SensorTypeEntity, Long> {
 
-    Optional<SensorTypeEntity> findByName(String name);
+    Optional<SensorTypeEntity> findByNameIgnoreCase(String name);
 }

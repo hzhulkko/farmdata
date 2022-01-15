@@ -41,7 +41,7 @@ public class DataLoaderService {
     }
 
     private SensorTypeEntity findSensorType(FarmDataItem item) {
-        var sensorType = sensorTypeRepository.findByName(item.getSensorType().name());
+        var sensorType = sensorTypeRepository.findByNameIgnoreCase(item.getSensorType().name());
         if (sensorType.isPresent()) {
             return sensorType.get();
         }
