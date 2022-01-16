@@ -12,18 +12,18 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/farm")
+@RequestMapping("/api/v1")
 public class FarmController {
 
     @Autowired
     private final FarmService farmService;
 
-    @GetMapping("/")
+    @GetMapping("/farm")
     public List<FarmResponse> listAllFarms() {
         return farmService.findAllFarms();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/farm/{id}")
     public FarmResponse showFarmDetails(
             @PathVariable String id) {
         return farmService.findFarmById(Long.parseLong(id));
@@ -33,7 +33,7 @@ public class FarmController {
         return farmService.findMeasurementsByFarmAndSensorType(id, metric);
     }
 
-    @GetMapping("/{id}/{metric}")
+    @GetMapping("/farm/{id}/{metric}")
     public List<MeasurementResponse> listAllMeasurements(
             @PathVariable Long id,
             @PathVariable String metric,

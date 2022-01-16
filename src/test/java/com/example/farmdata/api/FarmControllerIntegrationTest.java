@@ -38,7 +38,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @BeforeEach
     public void setUp() {
         RestAssured.baseURI = "http://localhost:" + port;
-        RestAssured.basePath = "/api/v1/farm";
+        RestAssured.basePath = "/api/v1";
     }
 
     @Test
@@ -54,7 +54,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Test
     void whenGetFarmsWithUnsupportedMethod_thenReturnBadRequest() {
         given()
-                .when().post("/")
+                .when().post("/farm")
                 .then().log().ifValidationFails()
                 .statusCode(HttpStatus.METHOD_NOT_ALLOWED.value())
                 .contentType(ContentType.JSON);
@@ -63,7 +63,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Test
     void whenGetFarmWithNonNumericParameter_thenReturnBadRequest() {
         given()
-                .when().get("/foo")
+                .when().get("/farm/foo")
                 .then().log().ifValidationFails()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .contentType(ContentType.JSON)
@@ -74,7 +74,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Sql({"/schema.sql"})
     void givenNoFarmsExist_whenListAllFarmsCalled_thenReturnEmptyList() {
         given()
-                .when().get("/")
+                .when().get("/farm")
                 .then().log().ifValidationFails()
                 .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
@@ -91,7 +91,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
                 new FarmDataItem("farm_2", ZonedDateTime.now(), SensorType.pH, 2.0)
         ));
         given()
-                .when().get("/")
+                .when().get("/farm")
                 .then().log().ifValidationFails()
                 .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
@@ -105,7 +105,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
         given()
-                .when().get("/1")
+                .when().get("/farm/1")
                 .then().log().ifValidationFails()
                 .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
@@ -118,7 +118,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Sql({"/schema.sql"})
     void givenNoFarmExists_whenShowFarmDetailsCalled_thenReturnErrorResponse() {
         given()
-                .when().get("/1")
+                .when().get("/farm/1")
                 .then().log().ifValidationFails()
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .contentType(ContentType.JSON)
@@ -133,7 +133,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
                 new FarmDataItem("farm_1", timestamp, SensorType.pH, 1.0)
         ));
         given()
-                .when().get("/1/ph")
+                .when().get("/farm/1/ph")
                 .then().log().ifValidationFails()
                 .contentType(ContentType.JSON)
                 .statusCode(HttpStatus.OK.value())
@@ -154,7 +154,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
                 new FarmDataItem("farm_2", ZonedDateTime.now(), SensorType.temperature, 1.0)
         ));
         given()
-                .when().get("/1/temperature")
+                .when().get("/farm/1/temperature")
                 .then().log().ifValidationFails()
                 .contentType(ContentType.JSON)
                 .statusCode(HttpStatus.OK.value())
@@ -168,7 +168,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
         given()
-                .when().get("/1/humidity")
+                .when().get("/farm/1/humidity")
                 .then().log().ifValidationFails()
                 .contentType(ContentType.JSON)
                 .statusCode(HttpStatus.NOT_FOUND.value())
@@ -188,7 +188,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
         given()
                 .param("start", start)
                 .param("end", end)
-                .when().get("/1/PH")
+                .when().get("/farm/1/PH")
                 .then().log().ifValidationFails()
                 .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
@@ -205,7 +205,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
         var start = "2020/01/01";
         given()
                 .param("start", start)
-                .when().get("/1/pH")
+                .when().get("/farm/1/pH")
                 .then().log().ifValidationFails()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .contentType(ContentType.JSON)
