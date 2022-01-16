@@ -7,6 +7,14 @@
 * Docker and Docker Compose
 * (Optional) PostgreSQL
 
+## Technologies
+
+I chose to build this application on Spring Boot which is a well documented framework with lots of 
+helpful features for web development. The application uses Opencsv for CSV parsing and validation. 
+
+Data is stored in PostgreSQL which is a general purpose database and can easily handle the small datasets of this demo project.
+I'm using Spring Data JPA for data access because it provides all basic CRUD methods and queries.
+
 ## Example data
 
 CSV files with example data are located in src/main/resources/data directory.
@@ -28,7 +36,7 @@ CSV files with example data are located in src/main/resources/data directory.
    ```/api/v1/farm/{id}``` shows farm id and name for given farm.
     
    ```/api/v1/farm/{id}/{metric}``` lists all metric data for given farm filtered by metric type. 
-   With tart and end query parameters results can be filtered to specific time range:
+   With start and end query parameters results can be filtered to specific date range:
    ````/api/v1/farm/1/ph?start=2019-01-01&end=2019-04-01````
   
 ## Running the application
