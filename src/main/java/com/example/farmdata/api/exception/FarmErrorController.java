@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Map;
 
+/*
+This replaces Spring Boot's BasicErrorController as default error controller for any unexpected errors.
+By overriding the BasicErrorController we don't send error responses with HTML content.
+ */
+
 @RestController
 @RequestMapping("/error")
 public class FarmErrorController extends AbstractErrorController {
