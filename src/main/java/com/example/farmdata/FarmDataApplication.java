@@ -1,7 +1,7 @@
 package com.example.farmdata;
 
-import com.example.farmdata.loader.FarmDataLoader;
 import com.example.farmdata.loader.DataLoaderService;
+import com.example.farmdata.loader.FarmDataLoader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,25 +15,26 @@ import java.util.Arrays;
 @SpringBootApplication
 public class FarmDataApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FarmDataApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FarmDataApplication.class, args);
+    }
 
-	@Bean
-	@Profile("!test")
-	CommandLineRunner initializeDatabase(DataLoaderService service) {
-		return args -> {
-			var files = Arrays.asList(
-					"src/main/resources/data/friman_metsola.csv",
-					"src/main/resources/data/Nooras_Farm.csv",
-					"src/main/resources/data/ossi_farm.csv",
-					"src/main/resources/data/PartialTech.csv");
-			files.forEach(filePath -> {
-				var data = FarmDataLoader.readFarmDataItems(filePath);
-				service.saveAll(data);
-			});
+    @Bean
+    @Profile("!test")
+    CommandLineRunner initializeDatabase(DataLoaderService service) {
+        return args -> {
+            var files = Arrays.asList(
+                    "data/friman_metsola.csv",
+                    "data/Nooras_Farm.csv",
+                    "data/ossi_farm.csv",
+                    "data/PartialTech.csv");
+            files.forEach(filePath -> {
+                var data = FarmDataLoader.readFarmDataItems(filePath);
+                service.saveAll(data);
+            });
 
-		};
-	}
+        };
+    }
+
 
 }

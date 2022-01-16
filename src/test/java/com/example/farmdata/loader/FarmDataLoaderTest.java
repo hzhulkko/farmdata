@@ -19,7 +19,7 @@ class FarmDataLoaderTest {
 
     @BeforeAll
     void readTestData() {
-        data = FarmDataLoader.readFarmDataItems("src/test/resources/test_data.csv");
+        data = FarmDataLoader.readFarmDataItems("test_data.csv");
     }
 
     @Test
