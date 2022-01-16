@@ -84,10 +84,10 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Test
     @Sql({"/schema.sql"})
     void givenFarmsExist_whenListAllFarmsCalled_thenReturnAllFarm() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_2", ZonedDateTime.now(), SensorType.pH, 2.0)
         ));
         given()
@@ -101,7 +101,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Test
     @Sql({"/schema.sql"})
     void givenFarmExists_whenShowFarmDetailsCalled_thenReturnFarm() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
         given()
@@ -129,7 +129,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Sql({"/schema.sql"})
     void givenMetricDataExists_whenListAllMeasurementsCalledWithMetric_thenReturnMeasurementWithCorrectData() {
         var timestamp = ZonedDateTime.now(ZoneOffset.UTC);
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", timestamp, SensorType.pH, 1.0)
         ));
         given()
@@ -147,10 +147,10 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Test
     @Sql({"/schema.sql"})
     void givenMetricDataNotExists_whenListAllMeasurementsCalledWithMetric_thenReturnEmptyList() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_2", ZonedDateTime.now(), SensorType.temperature, 1.0)
         ));
         given()
@@ -164,7 +164,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Test
     @Sql({"/schema.sql"})
     void givenSensorTypeNotExists_whenListAllMeasurementsCalledWithMetric_thenReturnErrorResponse() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
         given()
@@ -179,7 +179,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Sql({"/schema.sql"})
     void givenMetricDataExists_whenListAllMeasurementsCalledWithDateRange_thenReturnMeasurement() {
         var timestamp = ZonedDateTime.now(ZoneOffset.UTC);
-        dataLoaderService.saveAll(Arrays.asList(
+        dataLoaderService.saveDataForOneFarm(Arrays.asList(
                 new FarmDataItem("farm_1", timestamp.minusDays(2), SensorType.pH, 1.0),
                 new FarmDataItem("farm_1", timestamp, SensorType.pH, 2.0)
         ));
@@ -199,7 +199,7 @@ public class FarmControllerIntegrationTest extends AbstractFarmDataIntegrationTe
     @Test
     @Sql({"/schema.sql"})
     void whenListAllMeasurementsCalledWithInvalidDate_thenReturnErrorResponse() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
         var start = "2020/01/01";

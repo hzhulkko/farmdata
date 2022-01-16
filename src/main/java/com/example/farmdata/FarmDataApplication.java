@@ -30,7 +30,7 @@ public class FarmDataApplication {
                     "data/PartialTech.csv");
             files.forEach(filePath -> {
                 var data = FarmDataLoader.readFarmDataItems(filePath);
-                service.saveAll(data);
+                service.saveDataForOneFarm(data);
             });
 
         };

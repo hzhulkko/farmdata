@@ -36,10 +36,10 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
     @Test
     @Sql({"/schema.sql"})
     void givenFarmsInDatabase_thenFindFarmAllFarmsReturnsAllFarms() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_2", ZonedDateTime.now(), SensorType.pH, 2.0)
         ));
         var farms = farmService.findAllFarms();
@@ -62,10 +62,10 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
     @Test
     @Sql({"/schema.sql"})
     void givenFarmsInDatabase_thenFindFarmByIdReturnsCorrectFarm() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_2", ZonedDateTime.now(), SensorType.pH, 2.0)
         ));
         var farmToFind = farmService.findFarmById(1L);
@@ -78,7 +78,7 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
     @Test
     @Sql({"/schema.sql"})
     void givenFarmNotInDatabase_thenFindFarmByIdThrowsDataNotFoundException() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
         Assertions.assertThrows(DataNotFoundException.class, () -> farmService.findFarmById(2L));
@@ -87,7 +87,7 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
     @Test
     @Sql({"/schema.sql"})
     void givenMeasurementsInDatabase_thenOnlyMeasurementsForRequestedSensorTypeReturned() {
-        dataLoaderService.saveAll(Arrays.asList(
+        dataLoaderService.saveDataForOneFarm(Arrays.asList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.temperature, 1.0),
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 2.0),
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 3.0)
@@ -106,10 +106,10 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
     @Test
     @Sql({"/schema.sql"})
     void givenMeasurementsInDatabase_whenFindMeasurementsWithNonMatchingSensorType_thenEmptyListReturned() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_2", ZonedDateTime.now(), SensorType.temperature, 1.0)
         ));
         var sensorType = SensorType.temperature;
@@ -121,7 +121,7 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
     @Test
     @Sql({"/schema.sql"})
     void givenNoSensorTypeInDatabase_whenFindMeasurements_thenThrowDataNotFoundException() {
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", ZonedDateTime.now(), SensorType.pH, 1.0)
         ));
         Assertions.assertThrows(DataNotFoundException.class,
@@ -135,7 +135,7 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
         var expectedDate = LocalDate.parse("2019-01-01").atStartOfDay(ZoneOffset.UTC);
         var expectedValue = 5.0;
         var sensorType = SensorType.pH;
-        dataLoaderService.saveAll(Collections.singletonList(
+        dataLoaderService.saveDataForOneFarm(Collections.singletonList(
                 new FarmDataItem("farm_1", expectedDate, sensorType, expectedValue)
         ));
         var measurements =
@@ -153,7 +153,7 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
     void givenMeasurementsInDatabase_whenQueryWithStartAndEndDate_thenMeasurementsFromBetweenStartAndEndDateDateReturned() {
         var someDate = ZonedDateTime.parse("2019-01-01T00:00:00.001Z");
         var sensorType = SensorType.temperature;
-        dataLoaderService.saveAll(Arrays.asList(
+        dataLoaderService.saveDataForOneFarm(Arrays.asList(
                 new FarmDataItem("farm_1", someDate.minusDays(1), sensorType, 1.0),
                 new FarmDataItem("farm_1", someDate, sensorType, 2.0),
                 new FarmDataItem("farm_1", someDate.plusDays(1), sensorType, 3.0)
@@ -177,7 +177,7 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
     void givenMeasurementsInDatabase_whenQueryEndDateOnly_thenMeasurementsFromBeforeEndDateDateReturned() {
         var someDate = LocalDate.parse("2019-01-01").atStartOfDay(ZoneOffset.UTC);
         var sensorType = SensorType.rainfall;
-        dataLoaderService.saveAll(Arrays.asList(
+        dataLoaderService.saveDataForOneFarm(Arrays.asList(
                 new FarmDataItem("farm_1", someDate.minusDays(1), sensorType, 1.0),
                 new FarmDataItem("farm_1", someDate, sensorType, 2.0),
                 new FarmDataItem("farm_1", someDate.plusDays(1), sensorType, 3.0)
@@ -201,7 +201,7 @@ class FarmServiceIntegrationTest extends AbstractFarmDataIntegrationTest {
     void givenMeasurementsInDatabase_whenQueryStartDateOnly_thenMeasurementsFBetweenStartDateAndCurrentDateReturned() {
         var someDate = LocalDate.parse("2019-01-01").atStartOfDay(ZoneOffset.UTC);
         var sensorType = SensorType.rainfall;
-        dataLoaderService.saveAll(Arrays.asList(
+        dataLoaderService.saveDataForOneFarm(Arrays.asList(
                 new FarmDataItem("farm_1", someDate.minusDays(1), sensorType, 1.0),
                 new FarmDataItem("farm_1", someDate, sensorType, 2.0),
                 new FarmDataItem("farm_1", someDate.plusDays(1), sensorType, 3.0)

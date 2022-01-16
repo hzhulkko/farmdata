@@ -30,7 +30,7 @@ public class DataLoaderService {
     private final SensorTypeRepository sensorTypeRepository;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void saveAll(List<FarmDataItem> data) {
+    public void saveDataForOneFarm(List<FarmDataItem> data) {
         var sensorTypes = getSavedSensorTypes();
         var farmToSave = FarmDataMapper.mapToFarm(data.get(0));
         log.info("Starting to save measurement data from {}", farmToSave.getName());
