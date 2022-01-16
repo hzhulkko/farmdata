@@ -13,6 +13,7 @@ I chose to build this application on Spring Boot which is a well documented fram
 helpful features for web development. The application uses Opencsv for CSV parsing and validation. 
 
 Data is stored in PostgreSQL which is a general purpose database and can easily handle the small datasets of this demo project.
+Application re-creates the schema during startup.
 I'm using Spring Data JPA for data access because it provides all basic CRUD methods and queries.
 
 ## Example data
@@ -36,6 +37,7 @@ CSV files with example data are located in src/main/resources/data directory.
    ```/api/v1/farm/{id}``` shows farm id and name for given farm.
     
    ```/api/v1/farm/{id}/{metric}``` lists all metric data for given farm filtered by metric type. 
+   Accepted metrics are: temperature, pH and rainfall.
    With start and end query parameters results can be filtered to specific date range:
    ````/api/v1/farm/1/ph?start=2019-01-01&end=2019-04-01````
   
@@ -45,6 +47,8 @@ You can run the application locally from command line or using docker compose. I
 You should see 'All data saved for farm!' logged on screen when data loading from one CSV file is ready. 
 
 ### Running application in dev mode from command line:
+
+In dev mode you will see all SQL queries logged on the screen.
 
 1. Make sure you have PostgreSQL available in localhost port 5432. The easiest way to start the database is to run it in Docker:
 `docker run -d --name farmdb -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres postgres:13-alpine`
@@ -64,7 +68,7 @@ DB_NAME=<database_name>
 2. Build the application: `mvn clean package`
 3. Run `docker-compose up` to start the application and the database
 
-You'll find the application running in `http://localhost:8080`
+You'll find the application running in `http://localhost:8080` (note the port)
 
 ## Testing application
 
